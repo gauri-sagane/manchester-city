@@ -174,7 +174,7 @@ footer .footer_discl {
     margin: 0 auto;
     width: 1280px;
     margin-top: 90px;
-    height: 800px;
+    height: 625px;
     overflow: hidden;
 }
 
@@ -194,7 +194,7 @@ footer .footer_discl {
 }
 
 .featured_number {
-    font-size: 270px;
+    font-size: 230px;
     color: #ffffff;
     transform: translate(260px,170px);
     position: absolute;
@@ -202,7 +202,7 @@ footer .footer_discl {
 
 .featured_player {
     width: 500px;
-    height: 500px;
+    height: 350px;
     background-size: contain !important;
     background-repeat: no-repeat !important;
     position: absolute;
@@ -211,7 +211,7 @@ footer .footer_discl {
     position: absolute;
     background: #0e1731;
     color: #ffffff;
-    font-size: 92px;
+    font-size: 70px;
     text-transform: uppercase;
     padding: 0px 20px;
 }
@@ -220,7 +220,7 @@ footer .footer_discl {
     position: absolute;
     background: #0e1731;
     color: #ffffff;
-    font-size: 92px;
+    font-size: 70px;
     text-transform: uppercase;
     padding: 0px 20px;
 }
