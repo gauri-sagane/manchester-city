@@ -3,7 +3,7 @@ require("firebase/auth");
 
 
 const firebaseConfig = {
-    
+      
   };
 
 // Initialize Firebase

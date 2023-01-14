@@ -7,14 +7,17 @@ import Header from './components/header_footer/Header';
 import Footer from './components/header_footer/Footer';
 import Home from './components/home/Home';
 import SignIn from './components/signin/Signin';
+import Dashboard from './components/admin/Dashboard';
+import AuthGuard from './hoc/AuthGuard';
 
-const RoutesMain = ({user}) => {
+const RoutesMain = (props) => {
   //console.log(props);
   return(
     <BrowserRouter>
-    <Header user={user}/>
+    <Header user={props.user}/>
       <Routes>
-        <Route path="/sign_in" exact element = {<SignIn />} />
+        <Route path="/dashboard" exact element = {AuthGuard(Dashboard, props)} />
+        <Route path="/sign_in" exact element = { <SignIn user={props.user}/>} />
         <Route path="/" exact element = {<Home />} />
       </Routes>
       <ToastContainer />

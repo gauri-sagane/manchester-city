@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import '../../firebase';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { showToastError, showToastSuccess } from '../utils/Tools';
 
-function Signin(props) {
-
+function Signin({user}) {
+     
     const [loading, setLoading] = useState(false)
 
     const formik = useFormik({
@@ -51,6 +52,8 @@ function Signin(props) {
     }
 
     return (
+        <>
+        { !user ?
         <div className='container'>
             <div className='signin_wrapper' style={{margin:'100px'}}>
                 <form onSubmit={formik.handleSubmit}>
@@ -69,7 +72,7 @@ function Signin(props) {
                     
                 </form>
             </div>
-        </div>
+        </div> : <Navigate to="/dashboard"/> } </>
     );
 }
 
