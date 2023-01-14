@@ -3,22 +3,22 @@ import { AppBar, Toolbar, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { CityLogo } from '../utils/Tools';
 import '../../firebase';
-import { getAuth, signOut } from "firebase/auth";
-import { showToastError, showToastSuccess } from '../utils/Tools';
+//import { getAuth, signOut } from "firebase/auth";
+import { logoutHandler } from '../utils/Tools';
 
 function Header({user}) {
 
-    const auth = getAuth();
-    const logoutHandler = () => {
-        signOut(auth).then(() => {
-            // Sign-out successful.
+    // const auth = getAuth();
+    // const logoutHandler = () => {
+    //     signOut(auth).then(() => {
+    //         // Sign-out successful.
             
-            showToastSuccess('Signed out !! Good Bye !!')
-          }).catch((error) => {
-            // An error happened.
-            showToastError(error.message)
-          });
-    }
+    //         showToastSuccess('Signed out !! Good Bye !!')
+    //       }).catch((error) => {
+    //         // An error happened.
+    //         showToastError(error.message)
+    //       });
+    // }
 
     return (
         <div>
