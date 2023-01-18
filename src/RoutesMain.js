@@ -10,12 +10,15 @@ import SignIn from './components/signin/Signin';
 import Dashboard from './components/admin/Dashboard';
 import AuthGuard from './hoc/AuthGuard';
 
+import Players from './components/admin/players/Players';
+
 const RoutesMain = (props) => {
   //console.log(props);
   return(
     <BrowserRouter>
     <Header user={props.user}/>
       <Routes>
+        <Route path="/admin_players" exact element = {AuthGuard(Players)} />
         <Route path="/dashboard" exact element = {AuthGuard(Dashboard, props)} />
         <Route path="/sign_in" exact element = { <SignIn user={props.user}/>} />
         <Route path="/" exact element = {<Home />} />
