@@ -87,7 +87,7 @@ function Players(props) {
     return (
         <AdminLayout title="The Players">
             <div className='mb-5'>
-                <Button variant='outlined' to={'/admin_players/add-player'} component={Link}>Add Player</Button>
+                <Button variant='outlined' to={'/admin_players/add_player'} component={Link}>Add Player</Button>
             </div>
             <Paper className='mb-5'>
                 <Table>
