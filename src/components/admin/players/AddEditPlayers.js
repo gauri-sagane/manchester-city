@@ -4,17 +4,23 @@ import AdminLayout from '../../../hoc/AdminLayout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { showToastError, showToastSuccess, textErrorHelper, selectErrorHelper, isSelectError } from '../../utils/Tools';
+import FileUpload from '../../utils/FileUpload';
 import { TextField, Select, MenuItem, FormControl, Button } from '@mui/material';
 import '../../../firebase';
 import { firestore, playersCollection } from '../../../firebase';
 import { getDocs, collection, query, setDoc, updateDoc, doc } from "firebase/firestore";
+import { getStorage, getDownloadURL, ref } from "firebase/storage";
 
+
+const storage = getStorage();
 
 const defaultValues = {
     name: '',
     lastname: '',
     number: '',
-    position: ''
+    position: '',
+    image: '',
+    imageName: ''
 }
 
 function AddEditPlayers(props) {
@@ -22,6 +28,7 @@ function AddEditPlayers(props) {
     const [loading, setLoading] = useState(false);
     const [formType, setFormType] = useState('');
     const [values, setValues] = useState(defaultValues);
+    const [defaultImg, setDefaultImg] = useState('');
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -31,6 +38,8 @@ function AddEditPlayers(props) {
             lastname: Yup.string().required('This input is required'),
             number: Yup.number().required('This input is required').min(0, 'The minimum is Zero').max(100, 'The minimum is 100'),
             position: Yup.string().required('This input is required'),
+            image: Yup.string().required('This input is required'),
+            imageName: Yup.string().required('This input is required')
         }),
         onSubmit: (values) => {
             //console.log(values);
@@ -59,15 +68,17 @@ function AddEditPlayers(props) {
             try{
                 //console.log('Inside')
                 const DB = firestore.getFirestore();
- 
+                
                 const player = doc(DB, "players", playerid);
                 //console.log(frankDocRef)
-               
+                //console.log(dataToSubmit)
                 await updateDoc(player, {
                     name: dataToSubmit.name,
                     lastname: dataToSubmit.lastname,
                     position: dataToSubmit.position,
-                    number: dataToSubmit.number
+                    number: dataToSubmit.number,
+                    image: dataToSubmit.image,
+                    imageName: dataToSubmit.imageName
                 });
                 showToastSuccess('Player Updated Successfully!!')
                 
@@ -87,7 +98,7 @@ function AddEditPlayers(props) {
         if(param){
             try{
                 const loadPlayer = async() => {
-            
+                    
                     const DB = firestore.getFirestore();
                         
                     const q = query(collection(DB, "players"));
@@ -98,7 +109,19 @@ function AddEditPlayers(props) {
                         if(doc.id === param){
                             found = 1
                             setFormType('edit')
+                            //console.log(doc.data().imageName)
+                            const playerImage = ref(storage, doc.data().imageName);
                             setValues(doc.data())
+                            getDownloadURL(playerImage)
+                            .then((url) => {                            
+                                //console.log(url.split("token=")[1]+".png") 
+                                //console.log(this.downloadURL)
+                                //updateImageName(doc.data().imageName);
+                                setDefaultImg(url)
+                            })
+                            .catch((error) => {
+                                console.log(error)
+                            });
                         }
                     })
                     if(found === 0){
@@ -119,12 +142,36 @@ function AddEditPlayers(props) {
         }
     },[playerid])
 
+    const updateImageToken = (token) => {
+        formik.setFieldValue('image', token);
+    }
+    
+    const updateImageName = (filename) => {
+        formik.setFieldValue('imageName', filename);
+    }
+
+    const resetImage = () => {
+        formik.setFieldValue('imageName', '');
+        setDefaultImg('');
+    }
+
     return (
         <AdminLayout title={formType === 'add' ? 'Add Player' : 'Edit Player'}>
             <div className='editplayers_dialog_wrapper'>
                 <div>
                     <form onSubmit={formik.handleSubmit}>
-                        image
+                        <FormControl error={ isSelectError(formik, 'image') }>                     
+                            {formik.values.imageName != null ?
+                            <div>
+                            <FileUpload token={(token) => updateImageToken(token)} defaultImg={defaultImg} filename={(filename) => updateImageName(filename)} defaultImgName={formik.values.imageName} />
+                            { formType === 'edit' && defaultImg !== '' ? 
+                                <div className='image_upload_container'>
+                                    <img src = {defaultImg} style={{width: '100%'}} alt="Player"/>
+                                    <div className='remove' onClick={()=>resetImage()}>Remove</div>
+                                </div> : null }
+                            </div> : null }
+                            {selectErrorHelper(formik, 'image')}       
+                        </FormControl>
                         <hr />
                         <h4>Player Info</h4>
                         <div className='mb-5'>
