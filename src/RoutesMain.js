@@ -13,6 +13,8 @@ import AuthGuard from './hoc/AuthGuard';
 import Players from './components/admin/players/Players';
 import AddEditPlayers from './components/admin/players/AddEditPlayers';
 import TheTeam from './components/the_team/TheTeam';
+import MatchesList from './components/admin/matches_list/MatchesList';
+import AddEditMatches from './components/admin/matches_list/AddEditMatches';
 
 const RoutesMain = (props) => {
   //console.log(props);
@@ -20,6 +22,9 @@ const RoutesMain = (props) => {
     <BrowserRouter>
     <Header user={props.user}/>
       <Routes>
+        <Route path="/admin_matches/edit_match/:matchid" exact element = {AuthGuard(AddEditMatches)} />
+        <Route path="/admin_matches/add_match" exact element = {AuthGuard(AddEditMatches)} />
+        <Route path="/admin_matches" exact element = {AuthGuard(MatchesList)} />
         <Route path="/admin_players/edit_player/:playerid" exact element = {AuthGuard(AddEditPlayers)} />
         <Route path="/admin_players/add_player" exact element = {AuthGuard(AddEditPlayers)} />
         <Route path="/admin_players" exact element = {AuthGuard(Players)} />
