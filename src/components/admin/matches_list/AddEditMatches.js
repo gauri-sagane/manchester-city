@@ -5,9 +5,9 @@ import * as Yup from 'yup';
 import { showToastError, showToastSuccess, textErrorHelper, selectErrorHelper, isSelectError } from '../../utils/Tools';
 import { TextField, Select, MenuItem, FormControl, Button } from '@mui/material';
 import '../../../firebase';
-import { firestore, playersCollection } from '../../../firebase';
+import { firestore, matchesCollection } from '../../../firebase';
 import { getDocs, collection, query, setDoc, updateDoc, doc } from "firebase/firestore";
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 
 const defaultValues = {
@@ -46,9 +46,11 @@ function AddEditMatches(props) {
         }),
         onSubmit: (values) => {
             //console.log(values)
+            submitForm(values)
         }
     })
 
+    const navigate = useNavigate();
     const { matchid } = useParams();
 
     const showTeams = () => (
@@ -59,6 +61,45 @@ function AddEditMatches(props) {
          
         : null
     )
+
+    const submitForm = async(values) => {
+        let dataToSubmit = values;
+        teams.forEach((team) => {
+            if(team.shortName === dataToSubmit.local){
+                dataToSubmit['localThmb'] = team.thmb
+            }
+            if(team.shortName === dataToSubmit.away){
+                dataToSubmit['awayThmb'] = team.thmb
+            }
+        })
+        setLoading(true);
+        if(formType === 'add'){
+            try{
+                await setDoc(matchesCollection, dataToSubmit)
+                showToastSuccess('Match Added!!');
+                formik.resetForm();
+                navigate('/admin_matches')
+            }catch(error){
+                showToastError('Sorry something went wrong!!',error)
+            }finally{
+                setLoading(true);
+            }
+        }else{
+            try{
+                const DB = firestore.getFirestore();
+                const match = doc(DB, "matches", matchid);
+                await updateDoc(match, dataToSubmit)
+                showToastSuccess('Match Updated Successfully!!')
+            }catch(error){
+                showToastError('Sorry something went wrong!!',error);
+            }finally{
+                setLoading(true);
+            }
+        }
+        //console.log(values)
+    }
+
+    
 
     useEffect(() => {
         try{  
