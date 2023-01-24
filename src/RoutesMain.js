@@ -15,6 +15,7 @@ import AddEditPlayers from './components/admin/players/AddEditPlayers';
 import TheTeam from './components/the_team/TheTeam';
 import MatchesList from './components/admin/matches_list/MatchesList';
 import AddEditMatches from './components/admin/matches_list/AddEditMatches';
+import TheMatches from './components/the_matches/TheMatches';
 
 const RoutesMain = (props) => {
   //console.log(props);
@@ -29,6 +30,7 @@ const RoutesMain = (props) => {
         <Route path="/admin_players/add_player" exact element = {AuthGuard(AddEditPlayers)} />
         <Route path="/admin_players" exact element = {AuthGuard(Players)} />
         <Route path="/dashboard" exact element = {AuthGuard(Dashboard, props)} />
+        <Route path="/the_matches" exact element = {<TheMatches />} />
         <Route path="/the_team" exact element = {<TheTeam />} />
         <Route path="/sign_in" exact element = { <SignIn user={props.user}/>} />
         <Route path="/" exact element = {<Home />} />

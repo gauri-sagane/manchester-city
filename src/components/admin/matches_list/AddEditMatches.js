@@ -27,7 +27,7 @@ function AddEditMatches(props) {
     const [loading, setLoading] = useState(false);
     const [formType, setFormType] = useState('');
     const [teams, setTeams] = useState(null);
-    const [teamsId, setTeamsId] = useState(null);
+    //const [teamsId, setTeamsId] = useState(null);
     const [values, setValues] = useState(defaultValues);
     
     const formik = useFormik({
@@ -82,7 +82,7 @@ function AddEditMatches(props) {
             }catch(error){
                 showToastError('Sorry something went wrong!!',error)
             }finally{
-                setLoading(true);
+                setLoading(false);
             }
         }else{
             try{
@@ -93,7 +93,7 @@ function AddEditMatches(props) {
             }catch(error){
                 showToastError('Sorry something went wrong!!',error);
             }finally{
-                setLoading(true);
+                setLoading(false);
             }
         }
         //console.log(values)
@@ -114,7 +114,7 @@ function AddEditMatches(props) {
                     teamsId.push(doc.id);
                 });
                 setTeams(teamsNew);
-                setTeamsId(teamsId);
+                //setTeamsId(teamsId);
             }
             if(!teams){
                 loadTeams()
