@@ -53,7 +53,7 @@ function TheTeam(props) {
                     
                 })
                 Promise.all(promises).then(()=>{
-                    console.log(imgURL)
+                    //console.log(imgURL)
                     setImgURL(imgURL)
                 })
                 

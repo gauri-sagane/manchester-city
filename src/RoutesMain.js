@@ -16,6 +16,7 @@ import TheTeam from './components/the_team/TheTeam';
 import MatchesList from './components/admin/matches_list/MatchesList';
 import AddEditMatches from './components/admin/matches_list/AddEditMatches';
 import TheMatches from './components/the_matches/TheMatches';
+import NotFound from './components/NotFound';
 
 const RoutesMain = (props) => {
   //console.log(props);
@@ -34,6 +35,7 @@ const RoutesMain = (props) => {
         <Route path="/the_team" exact element = {<TheTeam />} />
         <Route path="/sign_in" exact element = { <SignIn user={props.user}/>} />
         <Route path="/" exact element = {<Home />} />
+        <Route path="/*" element = {<NotFound />} />
       </Routes>
       <ToastContainer />
       <Footer />
