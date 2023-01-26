@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Tab } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import '../../firebase';
 import { firestore } from '../../firebase';
 import { getDocs, collection, query } from "firebase/firestore";
